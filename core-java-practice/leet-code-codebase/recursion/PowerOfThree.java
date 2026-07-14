@@ -1,0 +1,14 @@
+public class PowerOfThree {
+    public static boolean isPowerOfThree(int n) {
+        if (n <= 0) return false;
+        if (n == 1) return true;
+        if (n % 3 != 0) return false;
+        return isPowerOfThree(n / 3);
+    }
+
+    public static void main(String[] args) {
+        System.out.println("27 is power of 3? " + isPowerOfThree(27));
+        System.out.println("0 is power of 3? " + isPowerOfThree(0));
+        System.out.println("-1 is power of 3? " + isPowerOfThree(-1));
+    }
+}
