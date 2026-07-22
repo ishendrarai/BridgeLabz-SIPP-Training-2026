@@ -1,19 +1,16 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class MergeCustomerRecords {
-    public List<Integer> mergeRecords(List<Integer> listA, List<Integer> listB) {
-        List<Integer> result = new ArrayList<>();
-        int i = 0, j = 0;
-        while (i < listA.size() && j < listB.size()) {
-            if (listA.get(i) <= listB.get(j)) {
-                result.add(listA.get(i++));
-            } else {
-                result.add(listB.get(j++));
-            }
+    public int[] mergeLists(int[] list1, int[] list2) {
+        int n = list1.length, m = list2.length;
+        int[] merged = new int[n + m];
+        int i = 0, j = 0, k = 0;
+        while (i < n && j < m) {
+            if (list1[i] <= list2[j]) merged[k++] = list1[i++];
+            else merged[k++] = list2[j++];
         }
-        while (i < listA.size()) result.add(listA.get(i++));
-        while (j < listB.size()) result.add(listB.get(j++));
-        return result;
+        while (i < n) merged[k++] = list1[i++];
+        while (j < m) merged[k++] = list2[j++];
+        return merged;
     }
 }

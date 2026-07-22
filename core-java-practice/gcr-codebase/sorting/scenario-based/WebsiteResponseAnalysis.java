@@ -1,10 +1,9 @@
 public class WebsiteResponseAnalysis {
-    public int countViolations(int[] responses) {
-        if (responses == null || responses.length <= 1) return 0;
-        int[] temp = new int[responses.length];
-        return mergeSortAndCount(responses, temp, 0, responses.length - 1);
+    public int countViolations(int[] times) {
+        if (times == null || times.length <= 1) return 0;
+        int[] temp = new int[times.length];
+        return mergeSortAndCount(times, temp, 0, times.length - 1);
     }
-
     private int mergeSortAndCount(int[] arr, int[] temp, int left, int right) {
         int count = 0;
         if (left < right) {
@@ -15,15 +14,12 @@ public class WebsiteResponseAnalysis {
         }
         return count;
     }
-
     private int mergeAndCount(int[] arr, int[] temp, int left, int mid, int right) {
         for (int i = left; i <= right; i++) temp[i] = arr[i];
-        int i = left, j = mid + 1, k = left;
-        int swaps = 0;
+        int i = left, j = mid + 1, k = left, swaps = 0;
         while (i <= mid && j <= right) {
-            if (temp[i] <= temp[j]) {
-                arr[k++] = temp[i++];
-            } else {
+            if (temp[i] <= temp[j]) arr[k++] = temp[i++];
+            else {
                 arr[k++] = temp[j++];
                 swaps += (mid + 1 - i);
             }

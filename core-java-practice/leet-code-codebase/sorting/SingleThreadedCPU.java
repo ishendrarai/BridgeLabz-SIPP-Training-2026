@@ -1,5 +1,4 @@
-import java.util.Arrays;
-import java.util.PriorityQueue;
+import java.util.*;
 
 public class SingleThreadedCPU {
     public int[] getOrder(int[][] tasks) {
@@ -10,22 +9,26 @@ public class SingleThreadedCPU {
             extTasks[i][1] = tasks[i][1];
             extTasks[i][2] = i;
         }
-        Arrays.sort(extTasks, (a, b) -> Integer.compare(a[0], b[0]));
-        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> a[1] == b[1] ? Integer.compare(a[2], b[2]) : Integer.compare(a[1], b[1]));
+        Arrays.sort(extTasks, (a, b) -> a[0] - b[0]);
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> {
+            if (a[1] != b[1]) return a[1] - b[1];
+            return a[2] - b[2];
+        });
+        
         int[] res = new int[n];
-        long time = 0;
-        int i = 0, idx = 0;
-        while (idx < n) {
-            while (i < n && extTasks[i][0] <= time) {
-                pq.offer(extTasks[i++]);
+        int resIdx = 0, taskIdx = 0, time = 0;
+        
+        while (resIdx < n) {
+            if (pq.isEmpty() && time < extTasks[taskIdx][0]) {
+                time = extTasks[taskIdx][0];
             }
-            if (pq.isEmpty()) {
-                time = extTasks[i][0];
-                continue;
+            while (taskIdx < n && extTasks[taskIdx][0] <= time) {
+                pq.offer(extTasks[taskIdx]);
+                taskIdx++;
             }
-            int[] task = pq.poll();
-            res[idx++] = task[2];
-            time += task[1];
+            int[] currTask = pq.poll();
+            time += currTask[1];
+            res[resIdx++] = currTask[2];
         }
         return res;
     }
